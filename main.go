@@ -2,39 +2,40 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"sort"
 	"time"
+
+	dicegame "github.com/lulmer-personal-development/FCC-challenge/DiceGame"
 )
 
-func gameRoll(numOfDice int) int {
-	if numOfDice == 0 {
-		return 0
-	}
+// func gameRoll(numOfDice int) int {
+// 	if numOfDice == 0 {
+// 		return 0
+// 	}
 
-	dice := make([]int, numOfDice)
-	rand.Seed(time.Now().UnixNano())
+// 	dice := make([]int, numOfDice)
+// 	rand.Seed(time.Now().UnixNano())
 
-	for i := 0; i < numOfDice; i++ {
-		dice[i] = rand.Intn(6) + 1
-	}
+// 	for i := 0; i < numOfDice; i++ {
+// 		dice[i] = rand.Intn(6) + 1
+// 	}
 
-	score := 7
-	newDiceCount := numOfDice
-	for _, diceVal := range dice {
-		if diceVal == 3 {
-			score = 0
-			newDiceCount--
-		} else if score != 0 && diceVal < score {
-			score = diceVal
-		}
-	}
-	if score != 0 {
-		newDiceCount--
-	}
+// 	score := 7
+// 	newDiceCount := numOfDice
+// 	for _, diceVal := range dice {
+// 		if diceVal == 3 {
+// 			score = 0
+// 			newDiceCount--
+// 		} else if score != 0 && diceVal < score {
+// 			score = diceVal
+// 		}
+// 	}
+// 	if score != 0 {
+// 		newDiceCount--
+// 	}
 
-	return score + gameRoll(newDiceCount)
-}
+// 	return score + gameRoll(newDiceCount)
+// }
 
 func sortScoreMapKeys(scoreMap map[int]int) []int {
 	scores := []int{}
@@ -52,7 +53,7 @@ func main() {
 
 	startTime := time.Now()
 	for i := 0; i < 10000; i++ {
-		newScore := gameRoll(5)
+		newScore := dicegame.GameRoll(5)
 		scoreMap[newScore]++
 	}
 	elapsedTime := time.Since(startTime)
