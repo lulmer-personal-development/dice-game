@@ -5,37 +5,8 @@ import (
 	"sort"
 	"time"
 
-	dicegame "github.com/lulmer-personal-development/FCC-challenge/DiceGame"
+	"FCC-challenge/dicegame"
 )
-
-// func gameRoll(numOfDice int) int {
-// 	if numOfDice == 0 {
-// 		return 0
-// 	}
-
-// 	dice := make([]int, numOfDice)
-// 	rand.Seed(time.Now().UnixNano())
-
-// 	for i := 0; i < numOfDice; i++ {
-// 		dice[i] = rand.Intn(6) + 1
-// 	}
-
-// 	score := 7
-// 	newDiceCount := numOfDice
-// 	for _, diceVal := range dice {
-// 		if diceVal == 3 {
-// 			score = 0
-// 			newDiceCount--
-// 		} else if score != 0 && diceVal < score {
-// 			score = diceVal
-// 		}
-// 	}
-// 	if score != 0 {
-// 		newDiceCount--
-// 	}
-
-// 	return score + gameRoll(newDiceCount)
-// }
 
 func sortScoreMapKeys(scoreMap map[int]int) []int {
 	scores := []int{}
@@ -49,10 +20,11 @@ func sortScoreMapKeys(scoreMap map[int]int) []int {
 }
 
 func main() {
+	const gameIterations int = 10000
 	scoreMap := make(map[int]int)
 
 	startTime := time.Now()
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < gameIterations; i++ {
 		newScore := dicegame.GameRoll(5)
 		scoreMap[newScore]++
 	}
@@ -61,9 +33,9 @@ func main() {
 	scores := sortScoreMapKeys(scoreMap)
 
 	for _, score := range scores {
-		percentage := float64(scoreMap[score]) / 100.0
-		fmt.Println(fmt.Sprintf("Score: %d occurs %.2f occurred %d times", score, percentage, scoreMap[score]))
+		percentage := float64(scoreMap[score]) / float64(gameIterations)
+		fmt.Printf("Score: %d occurs %.4f occurred %d times\n", score, percentage, scoreMap[score])
 	}
-	fmt.Print(fmt.Sprintf("Total simulation time took %f seconds", elapsedTime.Seconds()))
+	fmt.Printf("Total simulation time took %f seconds\n", elapsedTime.Seconds())
 
 }
